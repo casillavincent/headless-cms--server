@@ -4,7 +4,6 @@ A headless CMS setup with WordPress.
 
 ## First Install WP Plugins
 
--  WP GraphiQL
 -  WP GraphQL
 -  WPGraphQL For ACF
 -  Advanced Custom Field
