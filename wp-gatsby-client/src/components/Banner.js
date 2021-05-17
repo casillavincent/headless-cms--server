@@ -1,57 +1,18 @@
 import React from "react"
-import { graphql, useStaticQuery } from "gatsby"
 
-const Banner = () => {
-  const data = useStaticQuery(graphql`
-    query MyQuery {
-      wordpress {
-        sections {
-          edges {
-            node {
-              siteBanner {
-                postTitle
-                postLink
-                postExcerpt
-                contextTitle
-                bannerImage {
-                  srcSet
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  `)
-
-  const {
-    contextTitle,
-    postExcerpt,
-    postLink,
-    postTitle,
-  } = data.wordpress.sections.edges[0].node.siteBanner
-
-  const sourceSet =
-    data.wordpress.sections.edges[0].node.siteBanner.bannerImage.srcSet
-
+const Banner = ({ img, title, excerpt, context, link }) => {
   return (
     <section className="site-home-banner">
       {/* Image */}
-      <a href={`${postLink}`}>
-        {" "}
-        <img
-          srcSet={`${sourceSet}`}
-          alt="Site Banner"
-          className="site-banner-image"
-          loading="lazy"
-        />
+      <a href={`${link}`}>
+        <img alt="Site Banner" srcSet={`${img}`} width="1000" />
       </a>
 
       {/* Text Content */}
       <div className="text-content">
-        <p className="context">{contextTitle}</p>
-        <p className="post-title">{postTitle}</p>
-        <p className="excerpt">{postExcerpt}</p>
+        <p className="context-title">{context}</p>
+        <p className="title">{title}</p>
+        <p className="excerpt">{excerpt}</p>
       </div>
     </section>
   )
