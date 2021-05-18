@@ -1,5 +1,5 @@
 # Gatsby + WordPress
-
+#### This project uses WordPress as a headless CMS and sends the endpoint through GraphQL. The client-side is built using Gatsby.
 ### A basic desktop mockup.
 
 <img src="https://user-images.githubusercontent.com/73447863/118385697-1d05bf00-b5c6-11eb-8bd6-a17f4688c452.png" width="600" markdown="1" />
