@@ -9,6 +9,106 @@
 
 <img src="https://user-images.githubusercontent.com/73447863/118422661-7fb79300-b678-11eb-8702-8fa83eec56ae.jpg" width="900" markdown="1" />
 
+
+### Sample Code with one endpoint
+```javascript
+import React from "react"
+import Layout from "../components/Layout"
+import { graphql, useStaticQuery } from "gatsby"
+import Banner from "../components/Banner"
+import Recipes from "../components/Recipes"
+import Featured from "../components/Featured"
+
+const Index = () => {
+  const data = useStaticQuery(graphql`
+    query MyQuery {
+      allWpSection {
+        edges {
+          node {
+            siteBanner {
+              postTitle
+              postLink
+              postExcerpt
+              fieldGroupName
+              contextTitle
+              bannerImage {
+                srcSet
+              }
+            }
+            featured {
+              callToAction
+              context
+              excerpt
+              fieldGroupName
+              title
+            }
+          }
+        }
+      }
+      allWpRecipe {
+        edges {
+          node {
+            recipes {
+              recipeTitle
+              recipeOverview
+              recipeAuthor
+              fieldGroupName
+              articleLink
+              mainThumbnail {
+                altText
+                slug
+                srcSet
+              }
+            }
+          }
+        }
+      }
+    }
+  `)
+  const dataNormalized = data.allWpSection.edges[1].node.siteBanner
+
+  // Banner Variables
+  const { contextTitle, postTitle, postLink, postExcerpt } = dataNormalized
+  const banner = dataNormalized.bannerImage.srcSet
+
+  // Recipes
+  const recipesArr = data.allWpRecipe.edges
+
+  // Featured Article
+  const featuredNormalized = data.allWpSection.edges[0].node.featured
+  console.log(featuredNormalized)
+
+  const { callToAction, context, excerpt, title } = featuredNormalized
+
+  return (
+    <Layout>
+      {/* Component for Banner Image */}
+      <Banner
+        contextTitle={contextTitle}
+        postTitle={postTitle}
+        postLink={postLink}
+        postExcerpt={postExcerpt}
+        banner={banner}
+      />
+
+      {/* Component for featured recipes */}
+      <Recipes arr={recipesArr} />
+
+      {/* Component for featured article */}
+      <Featured
+        cta={callToAction}
+        context={context}
+        excerpt={excerpt}
+        title={title}
+      />
+    </Layout>
+  )
+}
+
+export default Index
+
+```
+
 ## First Install WP Plugins
 
 -  WP GraphQL
