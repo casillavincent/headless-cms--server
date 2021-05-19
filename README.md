@@ -1,112 +1,99 @@
 # Gatsby + WordPress
+
 #### This project uses WordPress as a headless CMS and sends the endpoint through GraphQL. The client-side is built using Gatsby. See it [live here](https://jynxkitchen.netlify.app/)
-### A basic desktop mockup.
-
-<img src="https://user-images.githubusercontent.com/73447863/118385697-1d05bf00-b5c6-11eb-8bd6-a17f4688c452.png" width="600" markdown="1" />
-<img src="https://user-images.githubusercontent.com/73447863/118385693-17a87480-b5c6-11eb-8d3d-6a46b9834941.png" width="900" markdown="1" />
-
-### Configuring GraphQL IDE in WordPress
-
-<img src="https://user-images.githubusercontent.com/73447863/118422661-7fb79300-b678-11eb-8702-8fa83eec56ae.jpg" width="900" markdown="1" />
-
 
 ### Sample Code with one endpoint
+
 ```javascript
-import React from "react"
-import Layout from "../components/Layout"
-import { graphql, useStaticQuery } from "gatsby"
-import Banner from "../components/Banner"
-import Recipes from "../components/Recipes"
-import Featured from "../components/Featured"
+import React from "react";
+import Layout from "../components/Layout";
+import { graphql, useStaticQuery } from "gatsby";
+import Banner from "../components/Banner";
+import Recipes from "../components/Recipes";
+import Featured from "../components/Featured";
 
 const Index = () => {
-  const data = useStaticQuery(graphql`
-    query MyQuery {
-      allWpSection {
-        edges {
-          node {
-            siteBanner {
-              postTitle
-              postLink
-              postExcerpt
-              fieldGroupName
-              contextTitle
-              bannerImage {
-                srcSet
-              }
+   const data = useStaticQuery(graphql`
+      query MyQuery {
+         allWpSection {
+            edges {
+               node {
+                  siteBanner {
+                     postTitle
+                     postLink
+                     postExcerpt
+                     fieldGroupName
+                     contextTitle
+                     bannerImage {
+                        srcSet
+                     }
+                  }
+                  featured {
+                     callToAction
+                     context
+                     excerpt
+                     fieldGroupName
+                     title
+                  }
+               }
             }
-            featured {
-              callToAction
-              context
-              excerpt
-              fieldGroupName
-              title
+         }
+         allWpRecipe {
+            edges {
+               node {
+                  recipes {
+                     recipeTitle
+                     recipeOverview
+                     recipeAuthor
+                     fieldGroupName
+                     articleLink
+                     mainThumbnail {
+                        altText
+                        slug
+                        srcSet
+                     }
+                  }
+               }
             }
-          }
-        }
+         }
       }
-      allWpRecipe {
-        edges {
-          node {
-            recipes {
-              recipeTitle
-              recipeOverview
-              recipeAuthor
-              fieldGroupName
-              articleLink
-              mainThumbnail {
-                altText
-                slug
-                srcSet
-              }
-            }
-          }
-        }
-      }
-    }
-  `)
-  const dataNormalized = data.allWpSection.edges[1].node.siteBanner
+   `);
+   const dataNormalized = data.allWpSection.edges[1].node.siteBanner;
 
-  // Banner Variables
-  const { contextTitle, postTitle, postLink, postExcerpt } = dataNormalized
-  const banner = dataNormalized.bannerImage.srcSet
+   // Banner Variables
+   const { contextTitle, postTitle, postLink, postExcerpt } = dataNormalized;
+   const banner = dataNormalized.bannerImage.srcSet;
 
-  // Recipes
-  const recipesArr = data.allWpRecipe.edges
+   // Recipes
+   const recipesArr = data.allWpRecipe.edges;
 
-  // Featured Article
-  const featuredNormalized = data.allWpSection.edges[0].node.featured
-  console.log(featuredNormalized)
+   // Featured Article
+   const featuredNormalized = data.allWpSection.edges[0].node.featured;
+   console.log(featuredNormalized);
 
-  const { callToAction, context, excerpt, title } = featuredNormalized
+   const { callToAction, context, excerpt, title } = featuredNormalized;
 
-  return (
-    <Layout>
-      {/* Component for Banner Image */}
-      <Banner
-        contextTitle={contextTitle}
-        postTitle={postTitle}
-        postLink={postLink}
-        postExcerpt={postExcerpt}
-        banner={banner}
-      />
+   return (
+      <Layout>
+         {/* Component for Banner Image */}
+         <Banner
+            contextTitle={contextTitle}
+            postTitle={postTitle}
+            postLink={postLink}
+            postExcerpt={postExcerpt}
+            banner={banner}
+         />
 
-      {/* Component for featured recipes */}
-      <Recipes arr={recipesArr} />
+         {/* Component for featured recipes */}
+         <Recipes arr={recipesArr} />
 
-      {/* Component for featured article */}
-      <Featured
-        cta={callToAction}
-        context={context}
-        excerpt={excerpt}
-        title={title}
-      />
-    </Layout>
-  )
-}
+         {/* Component for featured article */}
+         <Featured cta={callToAction} context={context} excerpt={excerpt} title={title} />
+      </Layout>
+   );
+};
 
-export default Index
-
+export default Index;
 ```
 
 ## First Install WP Plugins
